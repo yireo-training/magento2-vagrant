@@ -9,6 +9,7 @@ cp /vagrant/vagrant_files/composer-auth.json ~/.composer/auth.json
 #
 # Magento 2 setup
 #
+mkdir -p /vagrant/source
 cd /vagrant/source
 
 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition .
@@ -37,8 +38,9 @@ php -d memory_limit=2G bin/magento setup:install \
     --use-secure=0
 
 php bin/magento deploy:mode:set developer
+
+cp /vagrant/vagrant_files/composer-auth.json var/composer_home/auth.json
+
 php bin/magento sampledata:deploy
 php bin/magento setup:upgrade
 
-cp /vagrant/vagrant_files/composer-auth.json var/composer_home/auth.json
-rm -f var/.maintenance.flag
