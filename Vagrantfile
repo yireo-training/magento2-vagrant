@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :virtualbox do |vb|
     vb.customize [
       "modifyvm", :id,
-      "--memory", 2048,
+      "--memory", 4092,
       "--cpus", 1,
       "--ioapic", "on",
       "--natdnshostresolver1", "on",
@@ -46,11 +46,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Synced Folders
   # --------------------
   #config.vm.synced_folder ".", "/vagrant/", owner: "www-data", :mount_options => [ "dmode=777", "fmode=666" ]
-  #config.vm.synced_folder ".", "/vagrant/", type: "rsync", rsync__exclude: ".git/", owner: "www-data"
-  config.vm.synced_folder ".", "/vagrant/", :nfs => { :mount_options => ["dmode=777", "fmode=777"] }
+  config.vm.synced_folder ".", "/vagrant/", type: "rsync", rsync__exclude: ".git/", owner: "vagrant"
+  #config.vm.synced_folder ".", "/vagrant/", :nfs => { :mount_options => ["dmode=777", "fmode=777"] }
   #config.vm.synced_folder ".", "/vagrant/", type: "sshfs"
 
   # Provisioning Scripts
   # --------------------
-  config.vm.provision "shell", path: "vagrant-init.sh"
+  config.vm.provision "shell", path: "vagrant_scripts/vagrant-init.sh"
+  config.vm.provision "shell", path: "vagrant_scripts/vagrant-magento2.sh", privileged: false
+  config.vm.provision "shell", path: "vagrant_scripts/vagrant-end.sh"
 end
