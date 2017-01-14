@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :virtualbox do |vb|
     vb.customize [
       "modifyvm", :id,
-      "--memory", 2024,
+      "--memory", 2048,
       "--cpus", 1,
       "--ioapic", "on",
       "--natdnshostresolver1", "on",

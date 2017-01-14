@@ -104,3 +104,5 @@ max_binlog_size   = 100M
 # ssl-key=/etc/mysql/server-key.pem
 
 performance_schema = off
+
+innodb_buffer_pool_size=256M

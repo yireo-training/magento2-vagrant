@@ -167,7 +167,7 @@ composer update
 
 chmod 755 bin/magento
 
-php bin/magento setup:install \
+php -d memory_limit=1G bin/magento setup:install \
     --base-url=http://192.168.70.70/ \
     --db-host=localhost \
     --db-name=magento2 \
