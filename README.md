@@ -10,9 +10,14 @@ This Vagrant installs the following into a VM:
 - Magento 2
 
 ## Configuration
+The Vagrant configuration should be copied from `Vagrantfile.sample` to `Vagrantfile`.
+
+    cp Vagrantfile.sample Vagrantfile
+
 This Vagrant configuration uses NFS. Under Linux or MacOS this image should work out of the box, as long
 as you have NFS installed. Under Windows, you might want to try WinNFSd or change the configuration in 
-`Vagrantfile` to use an alternative to NFS.
+`Vagrantfile` to use an alternative to NFS. Alternatively (for any OS) you might want to opt for the `rsync` option -
+just make sure to run the command `vagrant rsync-auto` on the host side.
 
 Memory is assigned to the VM by modifying the `--memory` variable in `Vagrantfile`. Note that some
 parameters like the `query_cache` in `mysqld.cnf` might also be tuned accordingly.

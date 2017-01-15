@@ -24,8 +24,8 @@ update-rc.d -f ufw remove
 #
 # Nameservers
 #
-echo nameserver 8.8.8.8 > /etc/resolv.conf
-echo nameserver 8.8.4.4 >> /etc/resolv.conf
+#echo nameserver 8.8.8.8 > /etc/resolv.conf
+#echo nameserver 8.8.4.4 >> /etc/resolv.conf
 
 #
 # Remove locks
@@ -83,6 +83,7 @@ apt-get -y install php-igbinary
 # Configure PHP
 #
 echo "\ncgi.fix_pathinfo=0" >> /etc/php/7.0/fpm/php.ini
+cp /vagrant/vagrant_files/php-fpm.conf /etc/php/7.0/fpm/pool.d/www.conf
 
 #
 # Setup locales
