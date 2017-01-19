@@ -1,4 +1,6 @@
 # Vagrant image for Magento 2
+*Status: Draft - when things are stable, an official GitHub release will be made*
+
 This repository contains all the files to get a VM up and running via Vagrant. Recommended is to assign at least 4Gb of RAM to this VM.
 
 ## Specifications
