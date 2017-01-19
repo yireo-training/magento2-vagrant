@@ -1,4 +1,5 @@
 vagrant_files/composer-auth.json
+vagrant_files/composer.json
 source/
 .vagrant
 Vagrantfile
