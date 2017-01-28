@@ -37,7 +37,9 @@ Bring up this Vagrant image:
 Once the machine is up and running, Vagrant will run all the steps in the script `vagrant-init.sh`. After
 all steps are done, Magento 2 should be available under the following URL:
 
-http://192.168.70.70/
+http://magento2.local/ (with this hostname being mapped to IP `192.168.70.70`)
+
+Backend login is available under http://magento2.local/admin. You can login with `admin` and password `admin123`.
 
 You can manage the VM by SSH-ing to it:
 
