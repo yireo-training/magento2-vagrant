@@ -36,6 +36,7 @@ rm -f /var/lib/dpkg/lock
 # Update all
 #
 apt-get update
+apt-get -y upgrade
 
 #
 # MySQL configuration
