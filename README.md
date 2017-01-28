@@ -51,3 +51,9 @@ The current setup installs Magento 2 first in `/home/vagrant/source` and then mo
 This is because in some environments, the file syncing (NFS) of the Magento cache-folder `var/cache` causes traffic to
 go bezerk. By installing things in a non-synced folder, and then moving everything to the synced folder afterwards, this
 problem is bypassed.
+
+## Recommendations
+Do make sure to tune all things as documented above.
+
+Optionally also change the repo URL (currently in the `magento2-install.sh` script) to use an alternative Magento source. Using the
+  Yireo dev server is not giving you any guarantees, but works much faster for us than using the original `repo.magento.com`.
