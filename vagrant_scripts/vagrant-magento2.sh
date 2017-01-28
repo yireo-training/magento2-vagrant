@@ -20,8 +20,8 @@ mkdir -p $destination
 cd $destination
 
 # Download all Magento packages
-#repoUrl=https://repo.magento.com/
-repoUrl=https://magento2mirror.yireo-dev.com/
+repoUrl=https://repo.magento.com/
+#repoUrl=https://magento2mirror.yireo-dev.com/
 composer create-project --prefer-dist --no-progress --repository-url=$repoUrl magento/project-community-edition .
 composer update --no-progress
 
@@ -79,6 +79,7 @@ rm -r view_preprocessed/
 ln -s /tmp/magento-var/view_preprocessed/ .
 
 echo "Moving Magento 2 files to Vagrant shared folder"
+cd /vagrant
 mv $destination /vagrant/source
 
 # Done
