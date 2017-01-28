@@ -24,8 +24,7 @@ update-rc.d -f ufw remove
 #
 # Nameservers
 #
-#echo nameserver 8.8.8.8 > /etc/resolv.conf
-#echo nameserver 8.8.4.4 >> /etc/resolv.conf
+test -f /vagrant/vagrant_files/resolv.cnf && cp /vagrant/vagrant_files/resolv.cnf /etc/resolv.conf
 
 #
 # Remove locks
@@ -44,7 +43,7 @@ apt-get update
 debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
 debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
 apt-get -y install mysql-server mysql-client
-cp /vagrant/vagrant_files/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
+test -f /vagrant/vagrant_files/mysqld.cnf && cp /vagrant/vagrant_files/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
 systemctl start mysql
 systemctl enable mysql
 
@@ -52,6 +51,8 @@ systemctl enable mysql
 # Install Nginx
 #
 apt-get -y install nginx
+usermod www-data -G vagrant
+service nginx restart
 
 #
 # Installing NPM
@@ -99,7 +100,7 @@ apt-get -y install composer
 
 composer global require "hirak/prestissimo:^0.3"
 mkdir -p ~/.composer
-cp /vagrant/vagrant_files/composer-auth.json ~/.composer/auth.json
+test -f /vagrant/vagrant_files/composer-auth.json && cp /vagrant/vagrant_files/composer-auth.json ~/.composer/auth.json
 
 #
 # Configure PHP-FPM

@@ -29,6 +29,8 @@ to access to the Magento repositories, make sure to add a file `composer-auth.js
 credentials in place. If you skip this step, the Magento install will fail. An example is located in
 `composer-auth.json.sample`.
 
+You can also include a `resolv.conf` file in the `vagrant_files` folder to override DNS settings within the VM.
+
 ## Usage
 Bring up this Vagrant image:
 
@@ -46,3 +48,8 @@ You can manage the VM by SSH-ing to it:
 The machine is in Developer Mode by default. Magento 2 is installed into the folder `source` of the
 Vagrant folder, so that you can access all files via the hosting environment (your computer).
 
+## Caveats
+The current setup installs Magento 2 first in `/home/vagrant/source` and then moves this folder to `/vagrant/source`.
+This is because in some environments, the file syncing (NFS) of the Magento cache-folder `var/cache` causes traffic to
+go bezerk. By installing things in a non-synced folder, and then moving everything to the synced folder afterwards, this
+problem is bypassed.
