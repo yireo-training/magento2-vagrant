@@ -157,3 +157,7 @@ systemctl enable redis
 # 
 echo "CREATE DATABASE magento2;" | mysql --user=root --password=root
 
+#
+# Add a cronjob
+#
+cp /vagrant/vagrant_files/cronjob /etc/cron.hourly/magento2.local

@@ -1,0 +1,2 @@
+export PATH=$PATH:/vagrant/source/bin
+magento cron:run
