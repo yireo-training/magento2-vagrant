@@ -63,23 +63,14 @@ php bin/magento setup:upgrade
 # Optimize composer
 composer dump-autoload --optimize
 
-# Make sure var/ folders are not within VM shared folder
-cd var/
+# Enable Redis
+cp /vagrant/vagrant_files/env.php.redis app/etc/env.php
+rm -rf var/cache var/page_cache var/di var/generation
 
-mkdir -p /tmp/magento-var/cache
-rm -r cache
-ln -s /tmp/magento-var/cache .
-
-mkdir -p /tmp/magento-var/page_cache
-rm -r page_cache
-ln -s /tmp/magento-var/page_cache .
-
-mkdir -p /tmp/magento-var/view_preprocessed/
-rm -r view_preprocessed/
-ln -s /tmp/magento-var/view_preprocessed/ .
-
+# Going live (this is going to take some time)
 echo "Moving Magento 2 files to Vagrant shared folder"
 cd /vagrant
 mv $destination /vagrant/source
+mkdir -p /vagrant/source/var/cache /vagrant/source/var/session
 
 # Done
