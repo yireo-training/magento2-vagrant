@@ -7,6 +7,7 @@
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+export VIRTUALBOX_VERSION=5.1.0
 
 #
 # Disable firewall
@@ -129,8 +130,19 @@ service php7.0-fpm reload
 #
 # VirtualBox updates
 #
-apt-get -y install dkms
+apt-get -y install linux-headers-$(uname -r) build-essential dkms
 timedatectl set-timezone Europe/Amsterdam
+
+#
+# VirtualBox Guest Additions
+#
+wget http://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
+mkdir /media/VBoxGuestAdditions
+mount -o loop,ro VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso /media/VBoxGuestAdditions
+sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run
+rm VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
+umount /media/VBoxGuestAdditions
+rmdir /media/VBoxGuestAdditions
 
 #
 # Redis configuration
