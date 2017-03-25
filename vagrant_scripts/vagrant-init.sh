@@ -127,7 +127,7 @@ locale-gen en_US en_US.UTF-8
 #
 apt-get -y install composer
 
-composer global require "hirak/prestissimo:^0.3"
+composer -q global require "hirak/prestissimo:^0.3"
 mkdir -p ~/.composer
 test -f /vagrant/vagrant_files/composer-auth.json && cp /vagrant/vagrant_files/composer-auth.json ~/.composer/auth.json
 
@@ -183,3 +183,9 @@ echo "CREATE DATABASE magento2;" | mysql --user=root --password=root
 # Add a cronjob
 #
 cp /vagrant/vagrant_files/cronjob /etc/cron.hourly/magento2.local
+
+#
+# Sendmail (needed by M2 sample data)
+#
+apt-get -y install sendmail
+
