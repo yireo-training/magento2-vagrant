@@ -28,6 +28,38 @@ update-rc.d -f ufw remove
 test -f /vagrant/vagrant_files/resolv.cnf && cp /vagrant/vagrant_files/resolv.cnf /etc/resolv.conf
 
 #
+# VirtualBox updates
+#
+apt-get -y install linux-headers-$(uname -r) build-essential dkms
+timedatectl set-timezone Europe/Amsterdam
+
+#
+# VirtualBox Guest Additions
+#
+wget http://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
+mkdir /media/VBoxGuestAdditions
+mount -o loop,ro VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso /media/VBoxGuestAdditions
+sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run --nox11
+rm VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
+umount /media/VBoxGuestAdditions
+rmdir /media/VBoxGuestAdditions
+
+#
+# Complete VB setup
+#
+/etc/init.d/vboxadd setup
+chkconfig --add vboxadd
+chkconfig vboxadd on
+
+#
+# Fix grub
+#
+apt-get -y remove grub-pc
+apt-get -y install grub-pc
+grub-install /dev/sda
+update-grub
+
+#
 # Remove locks
 #
 #fuser -cuk /var/lib/dpkg/lock
@@ -126,23 +158,6 @@ rm /etc/nginx/sites-available/default
 #
 systemctl restart nginx
 service php7.0-fpm reload
-
-#
-# VirtualBox updates
-#
-apt-get -y install linux-headers-$(uname -r) build-essential dkms
-timedatectl set-timezone Europe/Amsterdam
-
-#
-# VirtualBox Guest Additions
-#
-wget http://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
-mkdir /media/VBoxGuestAdditions
-mount -o loop,ro VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso /media/VBoxGuestAdditions
-sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run
-rm VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
-umount /media/VBoxGuestAdditions
-rmdir /media/VBoxGuestAdditions
 
 #
 # Redis configuration
