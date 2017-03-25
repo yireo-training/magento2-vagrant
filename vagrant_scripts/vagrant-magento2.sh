@@ -23,6 +23,13 @@ cd $destination
 repoUrl=https://repo.magento.com/
 #repoUrl=https://magento2mirror.yireo-dev.com/
 composer create-project --prefer-dist --no-progress --repository-url=$repoUrl magento/project-community-edition .
+
+if [ ! -f bin/magento ]; then
+    echo "Magento installation seems to have failed"
+    exit(0)
+fi
+
+# Composer update
 composer update --no-progress
 
 # Make bin/magento executable

@@ -69,3 +69,6 @@ It might be needed to install a separate NFS plugin:
 If you get this error, try to install the `vbguest` plugin within
 Vagrant. For instance using a commmand like `vagrant plugin install
 vagrant-vbguest`.
+
+### Using sshfs
+When using SSHFS, run `vagrant plugin install vagrant-sshfs`.

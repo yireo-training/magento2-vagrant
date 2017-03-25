@@ -8,6 +8,7 @@ export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export VIRTUALBOX_VERSION=5.1.0
+export DEBIAN_FRONTEND=noninteractive
 
 #
 # Disable firewall
@@ -36,26 +37,19 @@ timedatectl set-timezone Europe/Amsterdam
 #
 # VirtualBox Guest Additions
 #
-wget http://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
-mkdir /media/VBoxGuestAdditions
-mount -o loop,ro VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso /media/VBoxGuestAdditions
-sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run --nox11
-rm VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
-umount /media/VBoxGuestAdditions
-rmdir /media/VBoxGuestAdditions
-
-#
-# Complete VB setup
-#
-/etc/init.d/vboxadd setup
-chkconfig --add vboxadd
-chkconfig vboxadd on
+#wget -q http://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
+#mkdir /media/VBoxGuestAdditions
+#mount -o loop,ro VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso /media/VBoxGuestAdditions
+#sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run --nox11
+#rm VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
+#umount /media/VBoxGuestAdditions
+#rmdir /media/VBoxGuestAdditions
 
 #
 # Fix grub
 #
-apt-get -y remove grub-pc
-apt-get -y install grub-pc
+#apt-get -y remove grub-pc
+#apt-get -y install grub-pc
 grub-install /dev/sda
 update-grub
 
@@ -70,6 +64,7 @@ rm -f /var/lib/dpkg/lock
 #
 apt-get update
 apt-get -y upgrade
+apt-get -y install
 
 #
 # MySQL configuration
