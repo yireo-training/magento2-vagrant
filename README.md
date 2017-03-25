@@ -63,3 +63,9 @@ Optionally also change the repo URL (currently in the `magento2-install.sh` scri
 It might be needed to install a separate NFS plugin:
 
     vagrant plugin install vagrant-winnfsd
+
+## Troubleshooting
+### Unknown configuration section 'vbguest'
+If you get this error, try to install the `vbguest` plugin within
+Vagrant. For instance using a commmand like `vagrant plugin install
+vagrant-vbguest`.
