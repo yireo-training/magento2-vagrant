@@ -59,3 +59,16 @@ Do make sure to tune all things as documented above.
 
 Optionally also change the repo URL (currently in the `magento2-install.sh` script) to use an alternative Magento source. Using the
   Yireo dev server is not giving you any guarantees, but works much faster for us than using the original `repo.magento.com`.
+
+It might be needed to install a separate NFS plugin:
+
+    vagrant plugin install vagrant-winnfsd
+
+## Troubleshooting
+### Unknown configuration section 'vbguest'
+If you get this error, try to install the `vbguest` plugin within
+Vagrant. For instance using a commmand like `vagrant plugin install
+vagrant-vbguest`.
+
+### Using sshfs
+When using SSHFS, run `vagrant plugin install vagrant-sshfs`.

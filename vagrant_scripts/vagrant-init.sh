@@ -8,6 +8,7 @@ export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export VIRTUALBOX_VERSION=5.1.0
+export DEBIAN_FRONTEND=noninteractive
 
 #
 # Disable firewall
@@ -28,6 +29,31 @@ update-rc.d -f ufw remove
 test -f /vagrant/vagrant_files/resolv.cnf && cp /vagrant/vagrant_files/resolv.cnf /etc/resolv.conf
 
 #
+# VirtualBox updates
+#
+apt-get -y install linux-headers-$(uname -r) build-essential dkms
+timedatectl set-timezone Europe/Amsterdam
+
+#
+# VirtualBox Guest Additions
+#
+#wget -q http://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
+#mkdir /media/VBoxGuestAdditions
+#mount -o loop,ro VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso /media/VBoxGuestAdditions
+#sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run --nox11
+#rm VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
+#umount /media/VBoxGuestAdditions
+#rmdir /media/VBoxGuestAdditions
+
+#
+# Fix grub
+#
+#apt-get -y remove grub-pc
+#apt-get -y install grub-pc
+grub-install /dev/sda
+update-grub
+
+#
 # Remove locks
 #
 #fuser -cuk /var/lib/dpkg/lock
@@ -38,6 +64,7 @@ rm -f /var/lib/dpkg/lock
 #
 apt-get update
 apt-get -y upgrade
+apt-get -y install
 
 #
 # MySQL configuration
@@ -100,7 +127,7 @@ locale-gen en_US en_US.UTF-8
 #
 apt-get -y install composer
 
-composer global require "hirak/prestissimo:^0.3"
+composer -q global require "hirak/prestissimo:^0.3"
 mkdir -p ~/.composer
 test -f /vagrant/vagrant_files/composer-auth.json && cp /vagrant/vagrant_files/composer-auth.json ~/.composer/auth.json
 
@@ -126,23 +153,6 @@ rm /etc/nginx/sites-available/default
 #
 systemctl restart nginx
 service php7.0-fpm reload
-
-#
-# VirtualBox updates
-#
-apt-get -y install linux-headers-$(uname -r) build-essential dkms
-timedatectl set-timezone Europe/Amsterdam
-
-#
-# VirtualBox Guest Additions
-#
-wget http://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
-mkdir /media/VBoxGuestAdditions
-mount -o loop,ro VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso /media/VBoxGuestAdditions
-sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run
-rm VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
-umount /media/VBoxGuestAdditions
-rmdir /media/VBoxGuestAdditions
 
 #
 # Redis configuration
@@ -173,3 +183,9 @@ echo "CREATE DATABASE magento2;" | mysql --user=root --password=root
 # Add a cronjob
 #
 cp /vagrant/vagrant_files/cronjob /etc/cron.d/magento2.local
+
+#
+# Sendmail (needed by M2 sample data)
+#
+apt-get -y install sendmail
+

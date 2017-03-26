@@ -4,7 +4,7 @@
 #
 
 # Install prestissimo
-composer global require --no-progress "hirak/prestissimo:^0.3"
+composer -q global require --no-progress "hirak/prestissimo:^0.3"
 
 # Copy your composer credentials
 mkdir -p ~/.composer
@@ -22,8 +22,15 @@ cd $destination
 # Download all Magento packages
 repoUrl=https://repo.magento.com/
 #repoUrl=https://magento2mirror.yireo-dev.com/
-composer create-project --prefer-dist --no-progress --repository-url=$repoUrl magento/project-community-edition .
-composer update --no-progress
+composer -q create-project --prefer-dist --no-progress --repository-url=$repoUrl magento/project-community-edition .
+
+if [ ! -f bin/magento ]; then
+    echo "Magento installation seems to have failed"
+    exit
+fi
+
+# Composer update
+composer -q update --no-progress
 
 # Make bin/magento executable
 chmod 755 bin/magento
@@ -61,7 +68,7 @@ php bin/magento sampledata:deploy
 php bin/magento setup:upgrade
 
 # Optimize composer
-composer dump-autoload --optimize
+composer -q dump-autoload --optimize
 
 # Enable Redis
 cp /vagrant/vagrant_files/env.php.redis app/etc/env.php
