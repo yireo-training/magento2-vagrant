@@ -1,4 +1,10 @@
 vagrant_files/composer-auth.json
+<<<<<<< HEAD
 Vagrantfile
+=======
+vagrant_files/composer.json
+vagrant_files/resolv.conf
+>>>>>>> 40bbcd2b8a0322de678d3ab7fc7ff471554228fd
 source/
 .vagrant
+Vagrantfile

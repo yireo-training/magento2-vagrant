@@ -7,6 +7,8 @@
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+export VIRTUALBOX_VERSION=5.1.0
+export DEBIAN_FRONTEND=noninteractive
 
 #
 # Disable firewall
@@ -24,8 +26,32 @@ update-rc.d -f ufw remove
 #
 # Nameservers
 #
-echo nameserver 8.8.8.8 > /etc/resolv.conf
-echo nameserver 8.8.4.4 >> /etc/resolv.conf
+test -f /vagrant/vagrant_files/resolv.cnf && cp /vagrant/vagrant_files/resolv.cnf /etc/resolv.conf
+
+#
+# VirtualBox updates
+#
+apt-get -y install linux-headers-$(uname -r) build-essential dkms
+timedatectl set-timezone Europe/Amsterdam
+
+#
+# VirtualBox Guest Additions
+#
+#wget -q http://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}/VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
+#mkdir /media/VBoxGuestAdditions
+#mount -o loop,ro VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso /media/VBoxGuestAdditions
+#sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run --nox11
+#rm VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso
+#umount /media/VBoxGuestAdditions
+#rmdir /media/VBoxGuestAdditions
+
+#
+# Fix grub
+#
+#apt-get -y remove grub-pc
+#apt-get -y install grub-pc
+grub-install /dev/sda
+update-grub
 
 #
 # Remove locks
@@ -37,6 +63,8 @@ rm -f /var/lib/dpkg/lock
 # Update all
 #
 apt-get update
+apt-get -y upgrade
+apt-get -y install
 
 #
 # MySQL configuration
@@ -44,7 +72,7 @@ apt-get update
 debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
 debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
 apt-get -y install mysql-server mysql-client
-cp /vagrant/vagrant_files/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
+test -f /vagrant/vagrant_files/mysqld.cnf && cp /vagrant/vagrant_files/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
 systemctl start mysql
 systemctl enable mysql
 
@@ -52,6 +80,8 @@ systemctl enable mysql
 # Install Nginx
 #
 apt-get -y install nginx
+usermod www-data -G vagrant
+service nginx restart
 
 #
 # Installing NPM
@@ -83,6 +113,7 @@ apt-get -y install php-igbinary
 # Configure PHP
 #
 echo "\ncgi.fix_pathinfo=0" >> /etc/php/7.0/fpm/php.ini
+cp /vagrant/vagrant_files/php-fpm.conf /etc/php/7.0/fpm/pool.d/www.conf
 
 #
 # Setup locales
@@ -96,9 +127,9 @@ locale-gen en_US en_US.UTF-8
 #
 apt-get -y install composer
 
-composer global require "hirak/prestissimo:^0.3"
+composer -q global require "hirak/prestissimo:^0.3"
 mkdir -p ~/.composer
-cp /vagrant/vagrant_files/composer-auth.json ~/.composer/auth.json
+test -f /vagrant/vagrant_files/composer-auth.json && cp /vagrant/vagrant_files/composer-auth.json ~/.composer/auth.json
 
 #
 # Configure PHP-FPM
@@ -124,12 +155,6 @@ systemctl restart nginx
 service php7.0-fpm reload
 
 #
-# VirtualBox updates
-#
-apt-get -y install dkms
-timedatectl set-timezone Europe/Amsterdam
-
-#
 # Redis configuration
 #
 apt-get -y install build-essential tcl
@@ -153,4 +178,14 @@ systemctl enable redis
 # MySQL databases
 # 
 echo "CREATE DATABASE magento2;" | mysql --user=root --password=root
+
+#
+# Add a cronjob
+#
+cp /vagrant/vagrant_files/cronjob /etc/cron.d/magento2.local
+
+#
+# Sendmail (needed by M2 sample data)
+#
+apt-get -y install sendmail
 
