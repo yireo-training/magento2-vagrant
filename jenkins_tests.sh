@@ -3,7 +3,8 @@ git clone https://github.com/yireo-training/magento2-vagrant
 cd magento2-vagrant
 
 cp Vagrantfile.sample Vagrantfile
-cp ~/.composer/auth.json vagrant_files/composer-auth.json
+# @todo: Customize this path to reflect your own composer-auth.json file
+cp /var/tmp/composer-auth.json vagrant_files/composer-auth.json
 
 vagrant up
 
