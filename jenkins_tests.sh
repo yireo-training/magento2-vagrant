@@ -1,4 +1,5 @@
 #!/bin/bash
+test -d magento2-vagrant && rm -rf magento2-vagrant
 git clone https://github.com/yireo-training/magento2-vagrant
 cd magento2-vagrant
 
