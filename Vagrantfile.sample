@@ -59,6 +59,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   # VB guest additions
   #
-  config.vbguest.auto_update = true
-  config.vbguest.no_remote = false
+  #config.vbguest.auto_update = true
+  #config.vbguest.no_remote = false
 end
