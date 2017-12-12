@@ -37,7 +37,7 @@ chmod 755 bin/magento
 
 # Install Magento
 php -d memory_limit=1G bin/magento setup:install \
-    --base-url=http://192.168.70.70/ \
+    --base-url=http://magento2.local/ \
     --db-host=localhost \
     --db-name=magento2 \
     --db-user=root \
@@ -66,6 +66,9 @@ cp /vagrant/vagrant_files/composer-auth.json var/composer_home/auth.json
 # Sample data
 php bin/magento sampledata:deploy
 php bin/magento setup:upgrade
+
+# Static Content Deployment
+php bin/magento setup:static-content:deploy
 
 # Optimize composer
 composer -q dump-autoload --optimize
