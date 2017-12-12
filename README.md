@@ -39,7 +39,7 @@ all steps are done, Magento 2 should be available under the following URL:
 
 http://magento2.local/ (with this hostname being mapped to IP `192.168.70.70`)
 
-Backend login is available under http://magento2.local/admin. You can login with `admin` and password `admin123`.
+Backend login is available under http://magento2.local/backend. You can login with `admin` and password `admin123`.
 
 You can manage the VM by SSH-ing to it:
 
