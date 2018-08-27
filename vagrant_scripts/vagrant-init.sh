@@ -107,6 +107,7 @@ apt-get -y install php7.0-mysql php7.0-mysql php7.0-curl php7.0-gd php7.0-intl p
 apt-get -y install php-soap
 apt-get -y install php-redis
 apt-get -y install php-igbinary
+apt-get -y install php-bcmath
 #apt-get -y install phpmyadmin # @todo: get rid of interaction
 
 #
